@@ -43,6 +43,10 @@ async def post_news_handler(request: web.Request):
     print("Received POST request: ")
     print(data['newstext'])
 
+    # Рассылаем текст новости всем подключенным клиентам
+    for ws in request.app["sockets"]:
+        await ws.send_str(data['newstext'])
+
     return web.Response(text=data['newstext'])
 
 
