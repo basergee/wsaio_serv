@@ -38,6 +38,14 @@ async def wshandler(request: web.Request):
             await ws.send_str("Someone disconnected.")
 
 
+async def post_news_handler(request: web.Request):
+    data = await request.post()
+    print("Received POST request: ")
+    print(data['newstext'])
+
+    return web.Response(text=data['newstext'])
+
+
 async def on_shutdown(app: web.Application):
     for ws in app["sockets"]:
         await ws.close()
@@ -46,7 +54,8 @@ async def on_shutdown(app: web.Application):
 def init():
     app = web.Application()
     app["sockets"] = []
-    app.router.add_get("/", wshandler)  # wshandler опишем позже
+    app.add_routes([web.get('/', wshandler),
+                    web.post('/news', post_news_handler)])
     app.on_shutdown.append(on_shutdown)  # on_shutdown опишем позже
     return app
 
