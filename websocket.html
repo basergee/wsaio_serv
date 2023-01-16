@@ -7,6 +7,7 @@
     <script language="javascript" type="text/javascript">
     $(function() {
       var conn = null;
+      var pingInterval = null;
       function log(msg) {
         var control = $('#log');
         control.html(control.html() + msg + '<br/>');
@@ -20,12 +21,14 @@
         conn.onopen = function() {
           log('Connected.');
           update_ui();
+          pingInterval = setInterval(() => {conn.send('Ping');}, 1000);
         };
         conn.onmessage = function(e) {
           log('Received: ' + e.data);
         };
         conn.onclose = function() {
           log('Disconnected.');
+          clearInterval(pingInterval);
           conn = null;
           update_ui();
         };
