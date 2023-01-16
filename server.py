@@ -38,6 +38,8 @@ async def wshandler(request: web.Request):
             await ws.send_str("Someone disconnected.")
 
 
+# Принимает POST-запрос на создание новости и рассылает текст новости всем
+# подключенным по websocket клиентам
 async def post_news_handler(request: web.Request):
     data = await request.post()
     print("Received POST request: ")
