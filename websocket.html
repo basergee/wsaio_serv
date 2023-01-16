@@ -14,7 +14,7 @@
       }
       function connect() {
         disconnect(); // разрываем соединение если функция вызвана по-ошибке
-        var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host;
+        var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host + '/ws';
         conn = new WebSocket(wsUri); //открываем соединение
         log('Connecting...');
         conn.onopen = function() {
