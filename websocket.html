@@ -44,10 +44,10 @@
       function update_ui() {
         if (conn == null) {
           $('#status').text('disconnected');
-          $('#connect').html('Connect');
+          $('#connect').html('Подписаться');
         } else {
           $('#status').text('connected (' + conn.protocol + ')');
-          $('#connect').html('Disconnect');
+          $('#connect').html('Отписаться');
         }
       }
       $('#connect').click(function() {
@@ -77,9 +77,9 @@
     </script>
 </head>
 <body>
-<h3>Chat!</h3>
+<h3>Новости</h3>
 <div>
-    <button id="connect">Connect</button>&nbsp;|&nbsp;Status:
+    <button id="connect">Подписаться</button>&nbsp;|&nbsp;Status:
     <span id="status">disconnected</span>
 </div>
 <div id="log"
