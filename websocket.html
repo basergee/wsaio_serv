@@ -57,9 +57,13 @@
         if (conn == null) {
           $('#status').text('disconnected');
           $('#connect').html('Подписаться');
+          $('#connect').toggleClass('btn-success', true);
+          $('#connect').toggleClass('btn-danger', false);
         } else {
           $('#status').text('connected (' + conn.protocol + ')');
           $('#connect').html('Отписаться');
+          $('#connect').toggleClass('btn-success', false);
+          $('#connect').toggleClass('btn-danger', true);
         }
       }
       $('#connect').click(function() {
@@ -78,14 +82,16 @@
 
 </head>
 <body>
-<h3>Новости</h3>
-<div>
-    <button id="connect">Подписаться</button>&nbsp;|&nbsp;Status:
-    <span id="status">disconnected</span> |
-    <span id="pingstatus">disconnected</span>
-</div>
-<div id="log"
-     style="width:20em;height:15em;overflow:auto;border:1px solid black">
+<div class="container-md">
+    <h3>Новости</h3>
+    <div>
+        <button id="connect" class="btn btn-success">Подписаться</button>&nbsp;|&nbsp;Status:
+        <span id="status">disconnected</span> |
+        <span id="pingstatus">disconnected</span>
+    </div>
+    <div id="log" class="form-control"
+         style="margin-top:1em;width:30em;height:15em;overflow:auto;border:1px solid black">
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
