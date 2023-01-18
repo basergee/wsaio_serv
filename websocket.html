@@ -22,15 +22,14 @@
         disconnect(); // разрываем соединение если функция вызвана по-ошибке
         var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host + '/ws';
         conn = new WebSocket(wsUri); //открываем соединение
-        log('Connecting...');
         conn.onopen = function() {
-          log('Connected.');
+          log('Вы подписались на новости');
           update_ui();
           pingInterval = setInterval(() => {conn.send(pingMessage);}, 1000);
         };
         conn.onmessage = function(e) {
           if (e.data != pingMessage) {
-            log('Received: ' + e.data);
+            log('Новая новость: ' + e.data);
           } else {
             /* Если пришел такой же ответ от сервера, какой мы посылали для
             проверки связи, то увеличиваем счетчик ответов */
@@ -39,15 +38,17 @@
           }
         };
         conn.onclose = function() {
-          log('Disconnected.');
+          log('Вы отменили подписку');
           clearInterval(pingInterval);
+          pingCounter = 0;
+          $('#pingstatus').text('ping: ' + pingCounter);
+
           conn = null;
           update_ui();
         };
       }
       function disconnect() {
         if (conn != null) {
-          log('Disconnecting...');
           conn.close();
           conn = null;
           update_ui();
@@ -55,12 +56,12 @@
       }
       function update_ui() {
         if (conn == null) {
-          $('#status').text('disconnected');
+          $('#status').text('Нет подписки');
           $('#connect').html('Подписаться');
           $('#connect').toggleClass('btn-success', true);
           $('#connect').toggleClass('btn-danger', false);
         } else {
-          $('#status').text('connected (' + conn.protocol + ')');
+          $('#status').text('Вы подписаны');
           $('#connect').html('Отписаться');
           $('#connect').toggleClass('btn-success', false);
           $('#connect').toggleClass('btn-danger', true);
@@ -86,8 +87,8 @@
     <h3>Новости</h3>
     <div>
         <button id="connect" class="btn btn-success">Подписаться</button>&nbsp;|&nbsp;Status:
-        <span id="status">disconnected</span> |
-        <span id="pingstatus">disconnected</span>
+        <span id="status">Нет подписки</span> |
+        <span id="pingstatus">ping: 0</span>
     </div>
     <div id="log" class="form-control"
          style="margin-top:1em;width:30em;height:15em;overflow:auto;border:1px solid black">
